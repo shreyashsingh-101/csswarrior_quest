@@ -1,0 +1,78 @@
+id: csswarrior_margin_top
+learningObjectives:
+  - Add a top margin to the list of cards to separate it from the tab selector.
+hints:
+  - Use the 'mt' class to add a top margin to the list of cards to separate it from the tab selector.
+  - Change the top margin of the row component to "mt-2" in the homepage.
+startFlow:
+  do:
+    - actionId: bot_message
+      params:
+        person: keen
+        messages:
+          - text: "Great work in the last step. Now, let's move to the net step."
+            delay: 700
+          - text: "We have to separate the list of cards from the tab selector. You can use a bootstrap class to add a top margin to the list of cards to separate it from the tab selector."
+            delay: 1000
+          - text: "Make changes in the row component in the homepage, and add a top margin of .5rem to the list of cards."
+            delay: 1300
+          - text: "Create a PR when you're done and I'll review it."
+            delay: 1500
+githubActions:
+  backend:
+    capabilities:
+      - axios
+      - dotenv
+    testFile: "test.js"
+  frontend:
+    capabilities:
+      - jest-puppeteer
+      - puppeteer@18.1.0
+    testFile: "test3.test.js"
+
+trigger:
+  type: github_pr_lifecycle_status
+  flowNode:
+    switch:
+      key: "${eventType}"
+      cases:
+        github_pr_opened:
+          do:
+            - actionId: github_pr_comment
+              params:
+                person: keen
+                message: "On it! I'll review the changes as soon as possible!"
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: "On it! I'll review the changes as soon as possible!"
+                    delay: 1500
+        github_pr_workflow_complete_success:
+          do:
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: Looking good! You can merge the PR now.
+                    delay: 1500
+            - actionId: github_pr_approve
+              params:
+                person: keen
+                message: Looking good! You can merge the PR now.
+        github_pr_workflow_complete_failure:
+          do:
+            - actionId: github_pr_reject
+              params:
+                person: keen
+                message: Some PR checks are failing. Please look into it and create a new PR.
+
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: Some PR checks are failing. Please look into it and create a new PR.
+                    delay: 2500
+        github_pr_merged:
+          do:
+            - actionId: finish_step

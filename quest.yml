@@ -1,0 +1,15 @@
+id: csswarrior
+title: CSS Warrior
+description: "In this quest you will learn how to use CSS and Bootstrap to style your web pages. You will learn how easy it is to change styles using bootstrap classes. You will also learn to add placeholder images."
+summary: "There is always a room for improvement in the styling of the wep pages. In this quest you will learn how to use CSS and Bootstrap to style your web pages. You will learn how easy it is to change styles using bootstrap classes. You will also learn to add placeholder images."
+level: beginner
+steps:
+- csswarrior_card_height
+- csswarrior_feed_padding
+- csswarrior_margin_top
+duration: 1
+skills:
+- frontend 
+- debugging
+questDependency: docker_localsetup
+slogan: Do you have what it takes to be a...

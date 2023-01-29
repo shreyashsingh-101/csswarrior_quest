@@ -1,0 +1,81 @@
+id: csswarrior_card_height
+learningObjectives:
+  - Find Problematic CSS in card component and fix it
+hints:
+  - Check the height of the card component. Change the height of the card component to 100%.
+  - Use "h-100" class to make the card component of 100% height.
+startFlow:
+  do:
+    - actionId: bot_message
+      params:
+        person: keen
+        messages:
+          - text: "Hey, How are you doing? I hope you are doing well. For starters, open the frontend of the anythink project in your browser."
+            delay: 700
+          - text: "If you don't have any items in your database, you can add some items using new item button. Make sure to add descriptions of different lengths."
+            delay: 800
+          - text: "Now, you can see that the cards on the homepage are not of the same height. This is because the description of the items are of different lengths."
+            delay: 1000
+          - text: "Use the appropriate bootstrap class to make the cards of the same height. (100% height)"
+            delay: 1300
+          - text: "Create a PR when you're done and I'll review it."
+            delay: 1600
+
+githubActions:
+  backend:
+    capabilities:
+      - axios
+      - dotenv
+    testFile: "test.js"
+  frontend:
+    capabilities:
+      - jest-puppeteer
+      - puppeteer@18.1.0
+    testFile: "test1.test.js"
+
+trigger:
+  type: github_pr_lifecycle_status
+  flowNode:
+    switch:
+      key: "${eventType}"
+      cases:
+        github_pr_opened:
+          do:
+            - actionId: github_pr_comment
+              params:
+                person: keen
+                message: "On it! I'll review the changes as soon as possible!"
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: "On it! I'll review the changes as soon as possible!"
+                    delay: 1500
+        github_pr_workflow_complete_success:
+          do:
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: Looking good! You can merge the PR now.
+                    delay: 1500
+            - actionId: github_pr_approve
+              params:
+                person: keen
+                message: Looking good! You can merge the PR now.
+        github_pr_workflow_complete_failure:
+          do:
+            - actionId: github_pr_reject
+              params:
+                person: keen
+                message: Some PR checks are failing. Please look into it and create a new PR.
+
+            - actionId: bot_message
+              params:
+                person: keen
+                messages:
+                  - text: Some PR checks are failing. Please look into it and create a new PR.
+                    delay: 2500
+        github_pr_merged:
+          do:
+            - actionId: finish_step
