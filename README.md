@@ -13,7 +13,7 @@ Using CSS and bootstrap to tinker around with the frontend of the website.
 
 ## Outline 
 - Step 1 [csswarrior_card_height]: Find Problematic CSS in card component and fix it 
-- Step 2 [csswarrior_placeholder_image]: Add a placeholder image to the card component
+- Step 2 [csswarrior_feed_padding]: Add padding to the feed toggle component
 - Step 3 [csswarrior_margin_top]: Add a top margin to the list of cards to separate it from the tab selector
 
 
